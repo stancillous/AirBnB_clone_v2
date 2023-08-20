@@ -73,8 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
-                            and type(eval(pline)) is dict:
+                    if (pline[0] == '{' and pline[-1] == '}' and type(eval(pline)) == dict):
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -124,21 +123,42 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        #create an instance of the class passed
-        new_instance = HBNBCommand.classes[class_name]()   
-        #iterate from index 1, excluding the class_name,
-        # since it isn't a parameter     
-        for params in(args_list[1:]):
+        # create an instance of the class passed
+        new_instance = HBNBCommand.classes[class_name]()
+        # iterate from index 1, excluding the class_name,
+        # since it isn't a parameter
+        for params in (args_list[1:]):
             parameter = params.split('=')
+            # check that params is correctly entered
+            if len(parameter) == 2:
 
-            #get the key entered as parameter by the user
-            paramKey = parameter[0]
-            #get the value entered as parameter by the user
-            paramValue = parameter[1]
-            
-            #set attribute w values of the params entered
-            if(hasattr(new_instance, paramKey)):
-                setattr(new_instance, paramKey, paramValue)
+                # get the key entered as parameter by the user
+                paramKey = parameter[0]
+                # get the value entered as parameter by the user
+                paramValue = parameter[1].replace('_', ' ')
+                # set attribute w values of the params entered
+
+                if (len(paramValue) >= 2 and paramValue[0] == '"' and paramValue[-1] == '"'):
+                    # Remove surrounding quotes
+                    paramValue = paramValue[1:-1]
+                    # Replace escaped quotes
+                    paramValue = paramValue.replace('\\"', '"')
+
+                # check if paramvalue is float
+                elif '.' in paramValue:
+                    try:
+                        paramValue = float(paramValue)
+                    except ValueError:
+                        continue
+
+                # check if paramValue if float
+                else:
+                    try:
+                        paramValue = int(paramValue)
+                    except ValueError:
+                        continue
+                if (hasattr(new_instance, paramKey)):
+                    setattr(new_instance, paramKey, paramValue)
 
         storage.save()
         print(new_instance.id)
@@ -204,7 +224,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
