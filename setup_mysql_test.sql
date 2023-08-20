@@ -2,5 +2,6 @@
 CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 CREATE USER IF NOT EXISTS 'hbnb_test'@'localhost' IDENTIFIED BY 'hbhb_test_pwd';
 GRANT ALL PRIVILEGES ON hbhb_test_db.* TO 'hbnb_test'@'localhost';
+FLUSH PRIVILEGES;
 GRANT SELECT on perfomance_schema.* TO 'hbnb_test'@'localhost';
 FLUSH PRIVILEGES;
