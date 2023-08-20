@@ -25,12 +25,13 @@ class FileStorage:
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
-    def delete(self, obj=None):
-        """deletes an object from __objects if present"""
-        if (obj != None):
-            key = obj.__class__.__name__ + '.' + obj.id
-            if key in self.all()[key]:
-                del self.all()[key]
+    # def delete(self, obj=None):
+    #     """deletes an object from __objects if present"""
+    #     if (obj != None):
+    #         key = obj.__class__.__name__ + '.' + obj.id
+    #         print("key is, ", key)
+    #         if key in self.all()[key]:
+    #             del self.all()[key]
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -55,4 +56,3 @@ class FileStorage:
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
-
