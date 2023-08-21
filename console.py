@@ -246,9 +246,6 @@ class HBNBCommand(cmd.Cmd):
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             str_dict = storage.all(self.classes[args])
-
-            # print(f"\n\t{str_dict}\n")
-
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
