@@ -115,19 +115,19 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """Create an object of any class"""
         if not args:
-            print("** class name missing **")
+            # print("** class name missing **")
             return
         args_list = args.split(' ')
         class_name = args_list[0]
         if class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
+            # print("** class doesn't exist **")
             return
 
         # create an instance of the class passed
 
-        print(f"\n\tDo_create\n")
+        # print(f"\n\tDo_create\n")
         new_instance = HBNBCommand.classes[class_name]()
-        print(f"\n\tNew instance:{type(new_instance)}\n")
+        # print(f"\n\tNew instance:{type(new_instance)}\n")
         # iterate from index 1, excluding the class_name,
         # since it isn't a parameter
         for params in (args_list[1:]):
@@ -162,8 +162,8 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 if (hasattr(new_instance, paramKey)):
                     setattr(new_instance, paramKey, paramValue)
-                    print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
-                    print(f"\n\tFrom instance properties {new_instance.name}\n")
+                    # print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
+                    # print(f"\n\tFrom instance properties {new_instance.name}\n")
 
         new_instance.save()
         print(new_instance.id)
@@ -247,7 +247,7 @@ class HBNBCommand(cmd.Cmd):
             args = args.split(' ')[0]  # remove possible trailing args
             str_dict = storage.all(self.classes[args])
 
-            print(f"\n\t{str_dict}\n")
+            # print(f"\n\t{str_dict}\n")
 
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")

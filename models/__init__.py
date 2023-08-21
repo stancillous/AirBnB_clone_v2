@@ -5,9 +5,9 @@ import os
 
 if (os.environ.get("HBNB_TYPE_STORAGE") == "db"):
     from models.engine.db_storage import DBStorage
-    print(f"\n\tBefore starting dbstorage\n")
+    # print(f"\n\tBefore starting dbstorage\n")
     storage = DBStorage()
-    print(f"\n\tAfter starting dbstorage\n")
+    # print(f"\n\tAfter starting dbstorage\n")
     storage.reload()
 
 else:
