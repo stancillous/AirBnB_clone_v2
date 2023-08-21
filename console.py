@@ -124,7 +124,10 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # create an instance of the class passed
+
+        print(f"\n\tDo_create\n")
         new_instance = HBNBCommand.classes[class_name]()
+        print(f"\n\tNew instance:{type(new_instance)}\n")
         # iterate from index 1, excluding the class_name,
         # since it isn't a parameter
         for params in (args_list[1:]):
@@ -159,8 +162,10 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 if (hasattr(new_instance, paramKey)):
                     setattr(new_instance, paramKey, paramValue)
+                    print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
+                    print(f"\n\tFrom instance properties {new_instance.name}\n")
 
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -240,14 +245,18 @@ class HBNBCommand(cmd.Cmd):
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
+            str_dict = storage.all(self.classes[args])
+
+            print(f"\n\t{str_dict}\n")
+
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in str_dict.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in str_dict.items():
                 print_list.append(str(v))
 
         print(print_list)

@@ -22,7 +22,11 @@ class DBStorage:
         self.dbHost = os.environ.get("HBNB_MYSQL_HOST")
         self.dbName = os.environ.get("HBNB_MYSQL_DB")
 
+        print(f"\n\tDbStorage.__init__\n")
+
         self.__engine = create_engine(f"mysql+mysqldb://{self.dbUser}:{self.dbPwd}@{self.dbHost}/{self.dbName}", pool_pre_ping=True)
+
+        print(f"\n\tNew engine created\n")
 
         if os.environ.get("HBNB_ENV") == "test":
             # Create a MetaData object
@@ -36,7 +40,7 @@ class DBStorage:
             print("All tables have been dropped")
 
     def all(self, cls=None):
-        self.__session = Session()
+        # self.__session = Session()
 
         #classes to loop thru if cls != None
         objs_list = [User, State, City, Amenity, Place, Review]
@@ -89,11 +93,15 @@ class DBStorage:
             self.__session.delete(obj)
     def reload(self):
         """reload our db"""
+        print(f"\n\tDbStorage.reload\n")
         Base.metadata.create_all(self.__engine)
         # Create a session factory using sessionmaker
         Session = sessionmaker(bind=self.__engine, expire_on_commit=True)
 
         # Create a scoped session from the session factory
         self.__session = scoped_session(Session)
+
+        print(f"\n\tNew session created\n")
+
 
 
