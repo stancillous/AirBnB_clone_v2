@@ -4,7 +4,13 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import MetaData, Table, Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from models.review import Review
-from models.amenity import Amenity
+# from models.amenity import Amenity
+
+metadata = Base.metadata
+place_amenity = Table(
+    "place_amenity", metadata,
+    Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+    Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -23,12 +29,7 @@ class Place(BaseModel, Base):
     # create an instance of SQLAl table called place_amenity
     # for creating rlshp Many to Many btwn Place and Amenity
     # metadata = MetaData()
-    metadata = Base.metadata
-    place_amenity = Table(
-        "place_amenity", metadata,
-        Column('place_id', String(60), ForeignKey('places.id')),
-        Column('amenity_id', String(60, ForeignKey('amenities.id')))
-    )
+    
 
     amenity_ids = []
 
@@ -48,7 +49,7 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=False)
     reviews = relationship("Review", backref="user", cascade="all, delete")
 
-    amenities = relationship("Amenity", secondary=place_amenity, viewonly=False,)
+    amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
 
     @property
     def reviews(self):
@@ -82,6 +83,6 @@ class Place(BaseModel, Base):
     def amenities(self, obj=None):
         """appends Amenity.id to the att amenity_ids"""
         if isinstance(obj, Amenity):
-            Place.amenity_ids.append(obj.id)
+            self.amenity_ids.append(obj.id)
 
     
