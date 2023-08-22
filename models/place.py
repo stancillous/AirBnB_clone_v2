@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from models.review import Review
+from models.review import Review
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -36,7 +37,14 @@ class Place(BaseModel, Base):
     @property
     def reviews(self):
         """Returns list of review instances"""
-        """UPDATE THIS SHIT, IS NOT COMPLETE"""
-        pass
+        reviews_lst=[]
+        from models.storage import storage
+        # returns a dict with instances of Class City
+        instances_dict = storage.all(Review)
+
+        for key,value in instances_dict.items():
+            if value.place_id == self.id:
+                reviews_lst.append[value]
+        return reviews_lst
 
 
