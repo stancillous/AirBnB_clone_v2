@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 from models.review import Review
 from models.review import Review
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     # city_id = ""
@@ -22,8 +23,10 @@ class Place(BaseModel, Base):
 
     """New attrs"""
     __tablename__ = 'places'
-    city_id = Column(String(length=60), ForeignKey('cities.id'), nullable=False)
-    user_id = Column(String(length=60), ForeignKey('users.id'), nullable=False, )
+    city_id = Column(String(length=60),
+                     ForeignKey('cities.id'), nullable=False)
+    user_id = Column(String(length=60),
+                     ForeignKey('users.id'), nullable=False, )
     name = Column(String(length=128), nullable=False)
     description = Column(String(length=1024), nullable=False)
     number_rooms = Column(Integer, default=0, nullable=False)
@@ -37,14 +40,12 @@ class Place(BaseModel, Base):
     @property
     def reviews(self):
         """Returns list of review instances"""
-        reviews_lst=[]
+        reviews_lst = []
         from models.storage import storage
         # returns a dict with instances of Class City
         instances_dict = storage.all(Review)
 
-        for key,value in instances_dict.items():
+        for key, value in instances_dict.items():
             if value.place_id == self.id:
                 reviews_lst.append[value]
         return reviews_lst
-
-
