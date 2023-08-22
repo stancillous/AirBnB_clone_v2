@@ -65,7 +65,6 @@ class Place(BaseModel, Base):
     
 
 
-
     @property
     def amenities(self): # getter attr amenities
         """Returns list of review instances"""
@@ -79,7 +78,7 @@ class Place(BaseModel, Base):
                 amenities_lst.append[am_instance]
         return amenities_lst
     
-    @property.setter
+    @amenities.setter
     def amenities(self, obj=None):
         """appends Amenity.id to the att amenity_ids"""
         if isinstance(obj, Amenity):
