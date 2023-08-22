@@ -41,7 +41,7 @@ class Place(BaseModel, Base):
     def reviews(self):
         """Returns list of review instances"""
         reviews_lst = []
-        from models.storage import storage
+        from models import storage
         # returns a dict with instances of Class City
         instances_dict = storage.all(Review)
 
