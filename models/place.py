@@ -19,7 +19,18 @@ class Place(BaseModel, Base):
     # price_by_night = 0
     # latitude = 0.0
     # longitude = 0.0
-    # amenity_ids = []
+
+    # create an instance of SQLAl table called place_amenity
+    # for creating rlshp Many to Many btwn Place and Amenity
+    # metadata = MetaData()
+    metadata = Base.metadata
+    place_amenity = Table(
+        "place_amenity", metadata,
+        Column('place_id', String(60), ForeignKey('places.id')),
+        Column('amenity_id', String(60, ForeignKey('amenities.id')))
+    )
+
+    amenity_ids = []
 
     """New attrs"""
     __tablename__ = 'places'
@@ -37,6 +48,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=False)
     reviews = relationship("Review", backref="user", cascade="all, delete")
 
+    amenities = relationship("Amenity", secondary=place_amenity, viewonly=False,)
+
     @property
     def reviews(self):
         """Returns list of review instances"""
@@ -50,15 +63,7 @@ class Place(BaseModel, Base):
                 reviews_lst.append[value]
         return reviews_lst
     
-    # create an instance of SQLAl table called place_amenity
-    # for creating rlshp Many to Many btwn Place and Amenity
-    # metadata = MetaData()
-    metadata = Base.metadata
-    place_amenity = Table(
-        "place_amenity", metadata,
-        Column('place_id', String(60), ForeignKey('places.id')),
-        Column('amenity_id', String(60, ForeignKey('amenities.id')))
-    )
+
 
 
     @property
@@ -73,5 +78,11 @@ class Place(BaseModel, Base):
             if am_instance.place_id == self.id:
                 amenities_lst.append[am_instance]
         return amenities_lst
+    
+    @property.setter
+    def amenities(self, obj=None):
+        """appends Amenity.id to the att amenity_ids"""
+        if isinstance(obj, Amenity):
+            Place.amenity_ids.append(obj.id)
 
     
