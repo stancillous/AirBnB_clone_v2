@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
+from sqlalchemy import MetaData, Table, Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from models.review import Review
-from models.review import Review
+from models.amenity import Amenity
 
 
 class Place(BaseModel, Base):
@@ -35,7 +35,7 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
-    reviews = relationship("Review", backref="user", cascade="delete")
+    reviews = relationship("Review", backref="user", cascade="all, delete")
 
     @property
     def reviews(self):
@@ -49,3 +49,29 @@ class Place(BaseModel, Base):
             if value.place_id == self.id:
                 reviews_lst.append[value]
         return reviews_lst
+    
+    # create an instance of SQLAl table called place_amenity
+    # for creating rlshp Many to Many btwn Place and Amenity
+    # metadata = MetaData()
+    metadata = Base.metadata
+    place_amenity = Table(
+        "place_amenity", metadata,
+        Column('place_id', String(60), ForeignKey('places.id')),
+        Column('amenity_id', String(60, ForeignKey('amenities.id')))
+    )
+
+
+    @property
+    def amenities(self): # getter attr amenities
+        """Returns list of review instances"""
+        amenities_lst = []
+        from models import storage
+        # returns a dict with instances of Class City
+        instances_dict = storage.all(Amenity)
+
+        for am_instance in instances_dict.values():
+            if am_instance.place_id == self.id:
+                amenities_lst.append[am_instance]
+        return amenities_lst
+
+    
