@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import MetaData, Table, Column, Integer, Float, String, ForeignKey, DateTime
+from sqlalchemy import MetaData, Table, Column,\
+    Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from models.review import Review
 from models.amenity import Amenity
@@ -10,8 +11,10 @@ from os import getenv
 metadata = Base.metadata
 place_amenity = Table(
     "place_amenity", metadata,
-    Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-    Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
+    Column('place_id', String(60), ForeignKey
+           ('places.id'), primary_key=True, nullable=False),
+    Column('amenity_id', String(60), ForeignKey
+           ('amenities.id'), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -30,7 +33,6 @@ class Place(BaseModel, Base):
     # create an instance of SQLAl table called place_amenity
     # for creating rlshp Many to Many btwn Place and Amenity
     # metadata = MetaData()
-    
 
     amenity_ids = []
 
@@ -50,7 +52,11 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=False)
     reviews = relationship("Review", backref="place", cascade="delete")
 
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+    amenities = relationship(
+        "Amenity",
+        secondary="place_amenity",
+        viewonly=False
+    )
 
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
         @property
@@ -65,11 +71,9 @@ class Place(BaseModel, Base):
                 if value.place_id == self.id:
                     reviews_lst.append(value)
             return reviews_lst
-        
-
 
         @property
-        def amenities(self): # getter attr amenities
+        def amenities(self):
             """Returns list of review instances"""
             amenities_lst = []
             from models import storage
@@ -80,11 +84,9 @@ class Place(BaseModel, Base):
                 if am_instance.id == self.amenity_ids:
                     amenities_lst.append(am_instance)
             return amenities_lst
-        
+
         @amenities.setter
         def amenities(self, obj=None):
             """appends Amenity.id to the att amenity_ids"""
             if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)
-
-        

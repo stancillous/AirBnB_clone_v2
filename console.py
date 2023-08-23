@@ -73,7 +73,8 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if (pline[0] == '{' and pline[-1] == '}' and type(eval(pline)) == dict):
+                    if (pline[0] == '{' and pline[-1]
+                            == '}' and type(eval(pline)) == dict):
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -117,12 +118,12 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """Create an object of any class"""
         if not args:
-            # print("** class name missing **")
+            print("** class name missing **")
             return
         args_list = args.split(' ')
         class_name = args_list[0]
         if class_name not in HBNBCommand.classes:
-            # print("** class doesn't exist **")
+            print("** class doesn't exist **")
             return
 
         # create an instance of the class passed
@@ -143,7 +144,8 @@ class HBNBCommand(cmd.Cmd):
                 paramValue = parameter[1].replace('_', ' ')
                 # set attribute w values of the params entered
 
-                if (len(paramValue) >= 2 and paramValue[0] == '"' and paramValue[-1] == '"'):
+                if (len(paramValue) >= 2 and paramValue[0]
+                        == '"' and paramValue[-1] == '"'):
                     # Remove surrounding quotes
                     paramValue = paramValue[1:-1]
                     # Replace escaped quotes
@@ -164,8 +166,6 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 if (hasattr(new_instance, paramKey)):
                     setattr(new_instance, paramKey, paramValue)
-                    # print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
-                    # print(f"\n\tFrom instance properties {new_instance.name}\n")
 
         new_instance.save()
         print(new_instance.id)
@@ -210,29 +210,52 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, args):
         """ Destroys a specified object """
-        new = args.partition(" ")
-        c_name = new[0]
-        c_id = new[2]
-        if c_id and ' ' in c_id:
-            c_id = c_id.partition(' ')[0]
+        # new = args.partition(" ")
+        # c_name = new[0]
+        # c_id = new[2]
+        # if c_id and ' ' in c_id:
+        #     c_id = c_id.partition(' ')[0]
 
-        if not c_name:
-            print("** class name missing **")
-            return
+        # if not c_name:
+        #     print("** class name missing **")
+        #     return
 
-        if c_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        # if c_name not in HBNBCommand.classes:
+        #     print("** class doesn't exist **")
+        #     return
 
-        if not c_id:
-            print("** instance id missing **")
-            return
+        # if not c_id:
+        #     print("** instance id missing **")
+        #     return
 
-        key = c_name + "." + c_id
+        # key = c_name + "." + c_id
 
+        # try:
+        #     del (storage.all()[key])
+        #     storage.save()
+        # except KeyError:
+        #     print("** no instance found **")
         try:
-            del (storage.all()[key])
-            storage.save()
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
+            if my_list[0] not in self.classes:
+                raise NameError()
+            if len(my_list) < 2:
+                raise IndexError()
+            objects = storage.all()
+            key = my_list[0] + '.' + my_list[1]
+            if key in objects:
+                del objects[key]
+                storage.save()
+            else:
+                raise KeyError()
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        except IndexError:
+            print("** instance id missing **")
         except KeyError:
             print("** no instance found **")
 
