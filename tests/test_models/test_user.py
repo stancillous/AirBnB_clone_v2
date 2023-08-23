@@ -73,6 +73,7 @@ class TestUser(unittest.TestCase):
     def test_attributes(self):
         """Check for attributes."""
         us = User(email="a", password="a")
+        # print(f"\t***us.id: {us.id}")
         self.assertEqual(str, type(us.id))
         self.assertEqual(datetime, type(us.created_at))
         self.assertEqual(datetime, type(us.updated_at))

@@ -93,7 +93,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
-        exit()
+        # exit()
+        return True
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
@@ -101,8 +102,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """ Handles EOF to exit program """
-        print()
-        exit()
+        print("")
+        # exit()
+        return True
 
     def help_EOF(self):
         """ Prints the help documentation for EOF """
@@ -245,10 +247,11 @@ class HBNBCommand(cmd.Cmd):
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
-            str_dict = storage.all(self.classes[args])
+            # str_dict = storage.all(self.classes[args])
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
+            str_dict = storage.all(self.classes[args])
             for k, v in str_dict.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
