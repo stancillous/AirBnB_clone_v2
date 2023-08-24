@@ -12,7 +12,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-
 class DBStorage:
     __engine = None
     __session = None
@@ -25,12 +24,7 @@ class DBStorage:
 
         # print(f"\n\tDbStorage.__init__\n")
 
-        db_url = (
-            f"mysql+mysqldb://{self.dbUser}:{self.dbPwd}@"
-            f"{self.dbHost}/{self.dbName}"
-        )
-
-        self.__engine = create_engine(db_url, pool_pre_ping=True)
+        self.__engine = create_engine(f"mysql+mysqldb://{self.dbUser}:{self.dbPwd}@{self.dbHost}/{self.dbName}", pool_pre_ping=True)
 
         # print(f"\n\tNew engine created\n")
 
@@ -40,7 +34,7 @@ class DBStorage:
             # Reflect all existing tables in the database
             metadata.reflect(bind=self.__engine)
 
-            # loop thru and drop each table
+            #loop thru and drop each table
             for table_name, table_obj in metadata.tables.items():
                 table_obj.drop(self.__engine)
             # print("All tables have been dropped")
@@ -48,39 +42,42 @@ class DBStorage:
     def all(self, cls=None):
         # self.__session = Session()
 
-        # classes to loop thru if cls != None
+        #classes to loop thru if cls != None
         objs_list = [User, State, City, Amenity, Place, Review]
         objs_dict = {}
 
-        if (cls is None):
-            # query all objs
+        if (cls == None):
+            #query all objs
             for obj in objs_list:
                 # query the objects from the database
                 query = self.__session.query(obj).all()
 
                 # the previous query will return a list
                 for item in query:
-                    itemClass = item.__class__.__name__
-                    itemId = item.id
+                    itemClass= item.__class__.__name__ # get class name
+                    itemId = item.id # get the id part
+                    # form the dictionary key
                     itemKey = str(itemClass)+'.'+str(itemId)
-
+                    
                     # update the dictionary (objs_dict)
                     objs_dict[itemKey] = item
 
             return objs_dict
 
         else:
-            # query all objs depending on the arg 'cls'
+            #query all objs depending on the arg 'cls'
             our_query = self.__session.query(cls).all()
 
             for item in our_query:
-                itemClass = item.__class__.__name__
-                itemId = item.id
+                itemClass= item.__class__.__name__ # get class name
+                itemId = item.id # get the id part
+                # form the dictionary key
                 itemKey = str(itemClass)+'.'+str(itemId)
-
+                
                 # update the dictionary (objs_dict)
                 objs_dict[itemKey] = item
             return objs_dict
+
 
     def new(self, obj):
         """add a new obj to current db session"""
@@ -92,9 +89,8 @@ class DBStorage:
 
     def delete(self, obj=None):
         """delete obj from db"""
-        if obj is not None:
+        if obj != None:
             self.__session.delete(obj)
-
     def reload(self):
         """reload our db"""
         # print(f"\n\tDbStorage.reload\n")
@@ -106,3 +102,6 @@ class DBStorage:
         self.__session = scoped_session(Session)
 
         # print(f"\n\tNew session created\n")
+
+
+
