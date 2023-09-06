@@ -4,8 +4,9 @@ web_static folder of your AirBnB Clone repo, using the function do_pack"""
 
 
 def do_pack():
-    import os
+    """script that generates a .tgz archive"""
     import tarfile
+    from fabric.api import local
     from datetime import datetime
 
     now = datetime.now()
@@ -13,18 +14,11 @@ def do_pack():
     filename = (f"web_static_{now.year}{now.month}{now.day}\
                 {now.hour}{now.minute}{now.second}.tgz")
 
-    if not os.path.exists("web_static"):
+    try:
+        local("mkdir versions")
+        local(f"tar -czvf versions/web_static_{filename} web_static/")
+    except Exception as e:
         return None
 
-    # create dir where the tgz file will be put
-    if not os.path.exists:
-        os.mkdir("versions")
-
-    with tarfile.open(f"versions/{filename}", "w:gz") as tar:
-        tar.add("web_static")
-
-    tgz_path = f"versions/{filename}"
-    if os.path.exists(tgz_path):
-        return tgz_path
-    else:
-        return None
+    tgz_path = f"versions/web_static_{filename}"
+    return tgz_path
