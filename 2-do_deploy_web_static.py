@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from fabric.api import env, put, run
 from fabric import *
 import os
@@ -24,10 +25,16 @@ def do_deploy(archive_path):
         # remove the archive
         run('sudo rm -r /tmp/web_static_{}.tgz'.format(archive_path_extension))
 
+        run('sudo mv /data/web_static/releases/web_static_{}/web_static /data/web_static/releases/web_static_{}'.format(archive_path_extension, archive_path_extension))
+
+
+        run('sudo rm -rf /data/web_static/releases/web_static_{}/web_static'.format(archive_path_extension))       
+
+        run('sudo rm -r /data/web_static/releases/good_release')
         # delete this symbolic link
         run('sudo rm -r /data/web_static/current')
         # create new sym link
-        run('sudo ln -s /data/web_static/releases/web_static_{}\
+        run('sudo ln -s /data/web_static/releases/web_stSatic_{}\
              /data/web_static/current'.format(archive_path_extension))
         return True
     except Exception as e:
