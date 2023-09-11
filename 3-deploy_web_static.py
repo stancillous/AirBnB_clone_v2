@@ -4,10 +4,11 @@ from fabric import *
 from time import strftime
 import os
 
+
 def do_pack():
     """script that generates a .tgz archive from the
     contents of the web_static folder"""
-    
+
     filedate = strftime("%Y%m%d%H%M%S")
     try:
         if not os.path.exists('versions'):
@@ -17,7 +18,7 @@ def do_pack():
               .format(filedate))
         # local(f"python -m tarfile -vc versions/{filedate} web_static/")
         return "versions/web_static_{}.tgz".format(filedate)
-    
+
     except Exception as e:
         return None
 
@@ -63,6 +64,7 @@ def do_deploy(archive_path):
         return True
     except Exception as e:
         return False
+
 
 def deploy():
     """script that creates and distributes
