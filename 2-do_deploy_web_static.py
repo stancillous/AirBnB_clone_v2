@@ -17,24 +17,21 @@ def do_deploy(archive_path):
     archive_path_extension = archive_path[-18:-4]
     try:
         put(archive_path, '/tmp')
-        # exctract the tgz contents
-
-        # run('sudo python3 -m tarfile -e /tmp/web_static_{}.tgz\
-        #      /data/web_static/releases/web_static_{}'
-        #     .format(archive_path_extension, archive_path_extension))
 
         run('sudo mkdir -p /data/web_static/releases/web_static_{}'.
             format(archive_path_extension))
-
+        
+        # exctract the tgz contents
         run('sudo tar -xzf /tmp/web_static_{}.tgz -C /data/web_static/releases/web_static_{}'.
             format(archive_path_extension, archive_path_extension))
 
         # remove the archive
-        run('sudo rm -r /tmp/web_static_{}.tgz'.format(archive_path_extension))
+        run('sudo rm /tmp/web_static_{}.tgz'.format(archive_path_extension))
 
-        # run('sudo mv /data/web_static/releases/web_static_{}/web_static /data/web_static/releases/web_static_{}'.format(archive_path_extension, archive_path_extension))
+        # unpack the files
+        run('sudo mv /data/web_static/releases/web_static_{}/web_static/* /data/web_static/releases/web_static_{}'.format(archive_path_extension, archive_path_extension))
 
-        # run('sudo rm -rf /data/web_static/releases/web_static_{}/web_static'.format(archive_path_extension))       
+        run('sudo rm -rf /data/web_static/releases/web_static_{}/web_static'.format(archive_path_extension))       
 
         # delete this symbolic link
         run('sudo rm -rf /data/web_static/current')
