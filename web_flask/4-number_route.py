@@ -5,10 +5,10 @@ from flask import Flask
 app = Flask("__name__")
 
 
-@app.route("/number/<int:n>", strict_slashes = False)
+@app.route("/number/<int:n>", strict_slashes=False)
 def is_it_a_number(n):
     """function to serve the above route"""
-    return "%d is a number" %n
+    return "% d is a number" % n
 
 
 if __name__ == "__main__":

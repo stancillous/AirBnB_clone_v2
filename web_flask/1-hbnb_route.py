@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask("__name__")
 
 
-@app.route("/hbnb", strict_slashes = False)
+@app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """func to serve the above route"""
     return "HBNB"
