@@ -103,5 +103,10 @@ class DBStorage:
 
         # print(f"\n\tNew session created\n")
 
+    def close(self):
+        """removes the current scoped session"""
+        self.__session.remove()
+        
+
 
 
