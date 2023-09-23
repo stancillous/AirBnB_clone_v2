@@ -9,11 +9,13 @@ states_values = states.values()  # a should be  a list
 
 app = Flask("__name__")
 
+sorted_states = sorted(states_values, key=lambda x: x.name)
+
 
 @app.route("/states_list", strict_slashes=False)
 def states_list():
     """func to serve the above route"""
-    return render_template('7-states_list.html', states_val=states_values)
+    return render_template('7-states_list.html', states_val=sorted_states)
 
 
 @app.teardown_appcontext
