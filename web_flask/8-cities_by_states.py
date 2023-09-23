@@ -6,7 +6,7 @@ from models import storage
 from models.state import State
 from models.engine.db_storage import DBStorage
 
-app = Flask("__name__")
+app = Flask(__name__)
 
 if os.environ.get("HBNB_TYPE_STORAGE") == "db":
     states_values = storage.all(State).values()
