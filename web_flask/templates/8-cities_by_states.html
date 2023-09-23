@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        <H1>States</H1>
+        <UL>
+            {% for state in states_val %}
+            <LI>{{state.id}}: <B>{{state.name}}</B></LI>
+            <UL>
+                {# in the line below (state.cities), we're calling the cities getter attr
+                to be able to get a list of the cities in that state. so state.cities is actually
+                just calling the cities method, passing the state as the self argument#}
+                {% for city in state.cities %}
+                <LI>{{city.id}}: <B>{{city.name}}</B></LI>
+                {% endfor %}
+            </UL>
+            {% endfor %}
+
+        </UL>
+    </BODY>
+</HTML>
