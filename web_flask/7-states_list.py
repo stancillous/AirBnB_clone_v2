@@ -4,7 +4,7 @@ from models import storage
 from models.state import State
 
 states = storage.all(State)  # returns a dict
-states_values = states.values()  # should be  a list
+states_values = states.values()  #a should be  a list
 
 app = Flask("__name__")
 

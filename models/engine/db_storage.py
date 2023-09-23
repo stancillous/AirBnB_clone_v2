@@ -18,6 +18,10 @@ class DBStorage:
     __session = None
 
     def __init__(self):
+        # self.dbUser = "hbnb_dev"
+        # self.dbPwd = "hbnb_dev_pwd"
+        # self.dbHost = "localhost"
+        # self.dbName = "hbnb_dev_db"
         self.dbUser = os.environ.get("HBNB_MYSQL_USER")
         self.dbPwd = os.environ.get("HBNB_MYSQL_PWD")
         self.dbHost = os.environ.get("HBNB_MYSQL_HOST")
