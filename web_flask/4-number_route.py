@@ -24,7 +24,7 @@ def c(text):
     return "C % s" % new_text
 
 
-@app.route("/python", strict_slashes=False)
+@app.route("/python/", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python(text="is cool"):
     """func to serve the above routes"""
