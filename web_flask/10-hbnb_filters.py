@@ -15,12 +15,15 @@ states = storage.all(State).values()
 amenities = storage.all(Amenity).values()
 
 sorted_states = sorted(states, key=lambda x: x.name)
-sorted_amenities = sorted(amenities, key=lambda x:x.name)
+sorted_amenities = sorted(amenities, key=lambda x: x.name)
+
 
 @app.route("/hbnb_filters", strict_slashes=False)
 def hbnb_filters():
     """func to serve the above route"""
-    return render_template('10-hbnb_filters.html', states=sorted_states, amenities=sorted_amenities)
+    return render_template('10-hbnb_filters.html',
+                           states=sorted_states, amenities=sorted_amenities)
+
 
 @app.teardown_appcontext
 def remove_session(exception):
