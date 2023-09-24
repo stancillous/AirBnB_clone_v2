@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import MetaData, Table, Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from models.review import Review
-# from models.amenity import Amenity
 
 metadata = Base.metadata
 
