@@ -1,36 +1,36 @@
 #!/usr/bin/python3
+"""python script that starts a Flask web application"""
+from flask import Flask
 
-"""Simple flask app"""
+app = Flask(__name__)
 
-if __name__ == '__main__':
-    # import module
-    from flask import Flask
 
-    # create instance of Flask class
-    app = Flask(__name__)
+@app.route("/")
+def hello():
+    """func to serve the above route"""
+    return "Hello HBNB!"
 
-    # specify routes with decorator
-    @app.route("/", strict_slashes=False)
-    def hello_hbnb():
-        """ Displays Hello HBNB! """
-        return ("Hello HBNB!")
 
-    @app.route("/hbnb", strict_slashes=False)
-    def hbnb():
-        """Displays HBNB"""
-        return ("HBNB")
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
+    """func to serve the above route"""
+    return "HBNB"
 
-    @app.route("/c/<text>", strict_slashes=False)
-    def cisfun(text):
-        """c is fun"""
-        no_underscore = text.replace("_", " ")
-        return (f"C {no_underscore}")
 
-    @app.route('/python/', strict_slashes=False)
-    @app.route("/python/<text>", strict_slashes=False)
-    def python_is_cool(text='is cool'):
-        """Python is cool"""
-        no_underscore = text.replace("_", " ")
-        return (f"Python {no_underscore}")
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    """func to serve the above route"""
+    new_text = text.replace('_', ' ')
+    return "C % s" % new_text
 
-    app.run(host='0.0.0.0', port=5000)
+
+@app.route("/python/", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python(text="is cool"):
+    """func to serve the above routes"""
+    new_text = text.replace('_', ' ')
+    return (f"python {new_text}")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=None)
