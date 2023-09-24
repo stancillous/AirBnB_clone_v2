@@ -25,7 +25,8 @@ sorted_places = sorted(places, key=lambda x: x.name)
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """func to serve the above route"""
-    return render_template('100-hbnb.html', places=sorted_places, states=sorted_states, amenities=sorted_amenities)
+    return render_template('100-hbnb.html', places=sorted_places,
+                           states=sorted_states, amenities=sorted_amenities)
 
 
 @app.teardown_appcontext
